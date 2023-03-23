@@ -1,4 +1,19 @@
 import stockfish
+import time
+
+def detectffrep(lst):
+    """
+    thank you ChatGPT for writing this, big much very thanks
+    """
+    count = 1
+    for i in range(len(lst) - 1):
+        if lst[i] == lst[i+1]:
+            count += 1
+            if count > 5:
+                return True
+        else:
+            count = 1
+    return False
 
 
 whereFish = input("wheres my fish? ")
@@ -11,13 +26,23 @@ repre = {
     False: "Black"
 }
 
+game = []
+
 while True:
-    x.make_moves_from_current_position([x.get_top_moves()[0]["Move"]])
+    best = x.get_top_moves()
+    # print(best[0], flush=False)
+    x.make_moves_from_current_position([best[0]["Move"]])
     curplayer = not curplayer
-    print("%s's move" % (repre[curplayer]))
+    print("%s's move" % (repre[curplayer]), flush=False)
     print(x.get_board_visual())
-    if x.get_top_moves()[0]["Mate"]:
+    game += [x.get_fen_position()]
+    if best[0]["Mate"] or detectffrep(game):
         break
 
-print("Mate")
-
+if not detectffrep(game):
+    print("Mate")
+else:
+    print("Repeated game")
+with open("game_%s.fen" % str(int(time.time())), "a") as file:
+    for i in game:
+        file.write(i + "\n")
