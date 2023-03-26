@@ -1,5 +1,18 @@
 import stockfish
 import time
+import random
+
+def intput(name):
+    """
+    thanks to stackoverflow
+    """
+    global value
+    value = input(name)
+    while not value.isnumeric():
+        print("enter a number")
+        value = input("enter again")
+    return int(value)
+
 
 def detectffrep(lst):
     """
@@ -30,6 +43,9 @@ game = []
 
 while True:
     best = x.get_top_moves()
+    bestweights = []
+    for i in best:
+        bestweights += [i["Centipawn"]]
     # print(best[0], flush=False)
     x.make_moves_from_current_position([best[0]["Move"]])
     curplayer = not curplayer
@@ -43,6 +59,6 @@ if not detectffrep(game):
     print("Mate")
 else:
     print("Repeated game")
-with open("game_%s.fen" % str(int(time.time())), "a") as file:
+with open("game_%d.fen" % ( int(time.time())), "a") as file:
     for i in game:
         file.write(i + "\n")
