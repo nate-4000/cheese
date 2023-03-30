@@ -29,6 +29,11 @@ def detectffrep(lst):
     return False
 
 
+playernum = intput("number of players: ")
+if playernum:
+    import play
+    exit()
+
 whereFish = input("wheres my fish? ")
 x = stockfish.Stockfish(whereFish)
 
@@ -48,6 +53,7 @@ while True:
         bestweights += [i["Centipawn"]]
     # print(best[0], flush=False)
     x.make_moves_from_current_position([best[0]["Move"]])
+    print("played %s" % best[0]["Move"])
     curplayer = not curplayer
     print("%s's move" % (repre[curplayer]), flush=False)
     print(x.get_board_visual())
