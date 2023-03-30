@@ -47,7 +47,16 @@ while True:
     for i in best:
         bestweights += [i["Centipawn"]]
     # print(best[0], flush=False)
-    x.make_moves_from_current_position([best[0]["Move"]])
+    if not curplayer: # player is black
+        while True:
+            try:
+                print("suggested move from stockfish: %s" % best[0]["Move"])
+                x.make_moves_from_current_position([input("your move: ")])
+                break
+            except ValueError as err:
+                print("not valid, %s"% str(err))
+    else:
+        x.make_moves_from_current_position([best[0]["Move"]])
     curplayer = not curplayer
     print("%s's move" % (repre[curplayer]), flush=False)
     print(x.get_board_visual())
@@ -59,6 +68,6 @@ if not detectffrep(game):
     print("Mate")
 else:
     print("Repeated game")
-with open("bot_game_%d.fen" % ( int(time.time())), "a") as file:
+with open("player_game_%d.fen" % ( int(time.time())), "a") as file:
     for i in game:
         file.write(i + "\n")
