@@ -53,7 +53,7 @@ while True:
         bestweights += [i["Centipawn"]]
     # print(best[0], flush=False)
     x.make_moves_from_current_position([best[0]["Move"]])
-    print("played %s" % best[0]["Move"])
+    print("played %s (%d)" % (best[0]["Move"], best[0]["Centipawn"]))
     curplayer = not curplayer
     print("%s's move" % (repre[curplayer]), flush=False)
     print(x.get_board_visual())

@@ -52,12 +52,15 @@ while True:
             try:
                 print("suggested move from stockfish: %s, centipawn of %d" % (best[0]["Move"], best[0]["Centipawn"]))
                 x.make_moves_from_current_position([input("your move: ")])
+                evalu = x.get_evaluation()
+                if evalu["type"] == "cp":
+                    print("centipawn of %d" % evalu["value"])
                 break
             except ValueError as err:
                 print("not valid, %s"% str(err))
     else:
         x.make_moves_from_current_position([best[0]["Move"]])
-        print("played %s" % best[0]["Move"])
+        print("played %s (%d)" % (best[0]["Move"], best[0]["Centipawn"]))
     curplayer = not curplayer
     print("%s's move" % (repre[curplayer]), flush=False)
     print(x.get_board_visual())
